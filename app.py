@@ -26,10 +26,6 @@ def privacy():
 def tiktok_verification():
     return send_from_directory(".", "tiktok-developers-site-verification.txt", mimetype="text/plain")
 
-@app.route("/tiktok1d5bRrkCI9muV1ncrPR62Dx42QfdWcnb.txt")
-def tiktok_signature_new():
-    return send_from_directory(".", "tiktok1d5bRrkCI9muV1ncrPR62QfdWcnb.txt", mimetype="text/plain")
-
 @app.route("/auth/tiktok")
 def tiktok_login():
     if not CLIENT_KEY:

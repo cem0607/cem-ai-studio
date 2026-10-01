@@ -18,5 +18,9 @@ def privacy():
 def tiktok_verification():
     return send_from_directory(".", "tiktok-developers-site-verification.txt", mimetype="text/plain")
 
+@app.route("/tiktokwhK13ZVF6LphmoKLWXu7tih40chxx6ur.txt")
+def tiktok_signature():
+    return send_from_directory(".", "tiktokwhK13ZVF6LphmoKLWXu7tih40chxx6ur.txt", mimetype="text/plain")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)

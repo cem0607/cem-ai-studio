@@ -14,5 +14,9 @@ def terms():
 def privacy():
     return send_from_directory(".", "privacy.html")
 
+@app.route("/tiktok-developers-site-verification.txt")
+def tiktok_verification():
+    return send_from_directory(".", "tiktok-developers-site-verification.txt")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)

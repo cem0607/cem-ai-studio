@@ -16,7 +16,7 @@ def privacy():
 
 @app.route("/tiktok-developers-site-verification.txt")
 def tiktok_verification():
-    return "tiktok-developers-site-verification=JYhI03Ia4WgKUAX5rpRS5vEy7NGAX3o4"
+    return send_from_directory(".", "tiktok-developers-site-verification.txt", mimetype="text/plain")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)

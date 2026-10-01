@@ -6,71 +6,33 @@
 <title>CEM AI Studio</title>
 <style>
 body{font-family:Arial,sans-serif;max-width:700px;margin:auto;padding:30px;line-height:1.5}
-h1{margin-bottom:5px}
-.card{border:1px solid #ddd;border-radius:14px;padding:20px;margin-top:20px}
+h1{margin-bottom:5px}.card{border:1px solid #ddd;border-radius:14px;padding:20px;margin-top:20px}
 input,button{width:100%;padding:14px;margin-top:10px;box-sizing:border-box}
-button{cursor:pointer;border:0;border-radius:8px}
-video{width:100%;margin-top:15px;border-radius:10px}
-.small{font-size:13px;color:#666}
-a{margin-right:15px}
+button{cursor:pointer;border:0;border-radius:8px}video{width:100%;margin-top:15px;border-radius:10px}
+.small{font-size:13px;color:#666}a{margin-right:15px}
 </style>
 </head>
-
 <body>
-
 <h1>CEM AI Studio</h1>
-
 <p>AI destekli kısa video içerik oluşturma ve sosyal medya yayınlama platformu.</p>
-
 <div class="card">
-
 <h2>Video İçeriği</h2>
-
 <p>Videonuzu seçin ve yayınlamadan önce kontrol edin.</p>
-
 <input type="file" id="videoInput" accept="video/mp4,video/quicktime,video/webm">
-
 <video id="preview" controls style="display:none"></video>
-
 <button id="tiktok">TikTok'a Bağlan</button>
-
 <p id="status" class="small"></p>
-
 </div>
-
 <hr>
-
-<p class="small">
-CEM AI Studio, içerik üreticilerinin kısa video içeriklerini oluşturmasına,
-düzenlemesine ve bağlı sosyal medya hesaplarında paylaşmasına yardımcı olur.
-</p>
-
-<p>
-<a href="/terms.html">Kullanım Şartları</a>
-<a href="/privacy.html">Gizlilik Politikası</a>
-</p>
-
+<p class="small">CEM AI Studio, içerik üreticilerinin kısa video içeriklerini oluşturmasına, düzenlemesine ve bağlı sosyal medya hesaplarında paylaşmasına yardımcı olur.</p>
+<p><a href="/terms.html">Kullanım Şartları</a><a href="/privacy.html">Gizlilik Politikası</a></p>
 <script>
-const input = document.getElementById("videoInput");
-const preview = document.getElementById("preview");
-const status = document.getElementById("status");
-
-input.addEventListener("change", function(){
-    const file = input.files[0];
-
-    if(!file){
-        return;
-    }
-
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
-    status.textContent = "Video hazır.";
-});
-
-document.getElementById("tiktok").addEventListener("click", function(){
-    status.textContent = "TikTok bağlantısı için yetkilendirme hazırlanıyor.";
-});
+const input=document.getElementById("videoInput");
+const preview=document.getElementById("preview");
+const status=document.getElementById("status");
+input.addEventListener("change",()=>{const file=input.files[0];if(!file)return;preview.src=URL.createObjectURL(file);preview.style.display="block";status.textContent="Video hazır.";});
+document.getElementById("tiktok").addEventListener("click",()=>{window.location.href="/auth/tiktok";});
+if(new URLSearchParams(location.search).get("tiktok")==="connected")status.textContent="TikTok hesabı başarıyla bağlandı.";
 </script>
-
 </body>
 </html>

@@ -151,3 +151,7 @@ def tiktok_upload():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+
+@app.route("/tiktokB2YxhNvcIQTtnkaT8bmfRI2npqbzDNEa.txt")
+def tiktok_signature_file():
+    return send_from_directory(".", "tiktokB2YxhNvcIQTtnkaT8bmfRI2npqbzDNEa.txt", mimetype="text/plain")

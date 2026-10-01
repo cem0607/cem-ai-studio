@@ -20,7 +20,9 @@ button{cursor:pointer;border:0;border-radius:8px}video{width:100%;margin-top:15p
 <p>Videonuzu seçin ve yayınlamadan önce kontrol edin.</p>
 <input type="file" id="videoInput" accept="video/mp4,video/quicktime,video/webm">
 <video id="preview" controls style="display:none"></video>
+<button id="sample">Ra Ra videosunu kullan</button>
 <button id="tiktok">TikTok'a Bağlan</button>
+<button id="upload" style="display:none">TikTok'a taslak olarak gönder</button>
 <p id="status" class="small"></p>
 </div>
 <hr>
@@ -30,9 +32,51 @@ button{cursor:pointer;border:0;border-radius:8px}video{width:100%;margin-top:15p
 const input=document.getElementById("videoInput");
 const preview=document.getElementById("preview");
 const status=document.getElementById("status");
-input.addEventListener("change",()=>{const file=input.files[0];if(!file)return;preview.src=URL.createObjectURL(file);preview.style.display="block";status.textContent="Video hazır.";});
+const upload=document.getElementById("upload");
+let selectedFile=null;
+
+function showVideo(src,message){
+  preview.src=src;
+  preview.style.display="block";
+  status.textContent=message;
+}
+
+input.addEventListener("change",()=>{
+  selectedFile=input.files[0];
+  if(!selectedFile)return;
+  showVideo(URL.createObjectURL(selectedFile),"Video hazır.");
+});
+
+document.getElementById("sample").addEventListener("click",async()=>{
+  const response=await fetch("/sample/rava-na.mp4");
+  const blob=await response.blob();
+  selectedFile=new File([blob],"RAVA_NA_KLIP_FINAL.mp4",{type:"video/mp4"});
+  showVideo(URL.createObjectURL(selectedFile),"Ra Ra videosu hazır.");
+});
+
 document.getElementById("tiktok").addEventListener("click",()=>{window.location.href="/auth/tiktok";});
-if(new URLSearchParams(location.search).get("tiktok")==="connected")status.textContent="TikTok hesabı başarıyla bağlandı.";
+
+if(new URLSearchParams(location.search).get("tiktok")==="connected"){
+  status.textContent="TikTok hesabı başarıyla bağlandı.";
+  upload.style.display="block";
+}
+
+upload.addEventListener("click",async()=>{
+  if(!selectedFile){status.textContent="Önce bir video seçin.";return;}
+  upload.disabled=true;
+  status.textContent="Video TikTok'a gönderiliyor...";
+  const form=new FormData();
+  form.append("video",selectedFile);
+  try{
+    const response=await fetch("/api/tiktok/upload",{method:"POST",body:form});
+    const data=await response.json();
+    status.textContent=data.ok ? data.message : "Gönderim hatası: "+(data.error||data.details||"Bilinmeyen hata");
+  }catch(error){
+    status.textContent="Bağlantı hatası: "+error.message;
+  }finally{
+    upload.disabled=false;
+  }
+});
 </script>
 </body>
 </html>
